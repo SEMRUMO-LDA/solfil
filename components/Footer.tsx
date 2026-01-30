@@ -1,0 +1,270 @@
+
+import React, { useState } from 'react';
+import { Language } from '../types';
+import PrivacyModal from './PrivacyModal';
+
+interface LocationInfo {
+  name: string;
+  address: string;
+  mapUrl: string;
+  phone: string;
+  phoneRaw: string;
+  email: string;
+  note?: { PT: string, EN: string };
+  hours: {
+    week: string;
+    saturday: string;
+    sunday: { PT: string, EN: string };
+  };
+}
+
+const locations: LocationInfo[] = [
+  {
+    name: 'Vale de Parra',
+    address: 'Estrada Nacional 125, Vale de Parra\n8200-427 Albufeira, Portugal',
+    mapUrl: 'https://www.google.com/maps/search/?api=1&query=Solfil+Vale+de+Parra+Albufeira',
+    phone: '+351 289 591 144',
+    phoneRaw: '351289591144',
+    email: 'vparra@solfil.pt',
+    note: { 
+      PT: 'O levantamento de material de exterior é sempre no nosso escritório de Vale de Parra', 
+      EN: 'Pick-up of outdoor materials is always at our Vale de Parra office' 
+    },
+    hours: { week: '08h00 - 13h00 | 14h00 - 18h00', saturday: '08h00 - 13h00', sunday: { PT: 'Fechado', EN: 'Closed' } }
+  },
+  {
+    name: 'Ferreiras',
+    address: 'Sítio das Ferreiras\n8200-555 Albufeira, Portugal',
+    mapUrl: 'https://www.google.com/maps/search/?api=1&query=Solfil+Ferreiras+Albufeira',
+    phone: '+351 289 571 535',
+    phoneRaw: '351289571535',
+    email: 'ferreiras@solfil.pt',
+    hours: { week: '08h00 - 13h00 | 14h00 - 18h00', saturday: '08h00 - 13h00', sunday: { PT: 'Fechado', EN: 'Closed' } }
+  }
+];
+
+const Footer: React.FC<{ lang: Language }> = ({ lang }) => {
+  const [activeLoc, setActiveLoc] = useState(0);
+  const [newsEmail, setNewsEmail] = useState('');
+  const [newsStatus, setNewsStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
+  
+  const logoUrl = "https://raw.githubusercontent.com/solfil/solfil/solfil-assets/assets/logo.png";
+  
+  const COMPANY_EMAIL = 'geral@solfil.pt';
+
+  const t = {
+    PT: {
+      newsTag: 'NEWSLETTER',
+      newsTitle1: 'RECEBA AS NOSSAS',
+      newsTitle2: 'NOVIDADES.',
+      newsPlace: 'O seu melhor e-mail...',
+      newsBtn: 'ENVIAR',
+      newsSuccess: 'Obrigado por se subscrever!',
+      where: 'ONDE ESTAMOS',
+      addrLabel: 'MORADA (VER NO MAPA)',
+      contactLabel: 'CONTACTOS DIRETOS',
+      hoursTitle: 'HORÁRIOS DE FUNCIONAMENTO',
+      weekLabel: 'SEGUNDA A SEXTA',
+      satLabel: 'SÁBADO',
+      sunLabel: 'DOMINGO',
+      socialPoints: 'REDES SOCIAIS',
+      priv: 'POLÍTICA DE PRIVACIDADE & COOKIES',
+      book: 'LIVRO DE RECLAMAÇÕES'
+    },
+    EN: {
+      newsTag: 'NEWSLETTER',
+      newsTitle1: 'STAY UPDATED WITH OUR',
+      newsTitle2: 'LATEST NEWS.',
+      newsPlace: 'Your best email...',
+      newsBtn: 'SEND',
+      newsSuccess: 'Thank you for subscribing!',
+      where: 'OUR LOCATIONS',
+      addrLabel: 'ADDRESS (VIEW ON MAP)',
+      contactLabel: 'DIRECT CONTACTS',
+      hoursTitle: 'OPENING HOURS',
+      weekLabel: 'MONDAY TO FRIDAY',
+      satLabel: 'SATURDAY',
+      sunLabel: 'SUNDAY',
+      socialPoints: 'SOCIAL MEDIA',
+      priv: 'PRIVACY & COOKIES POLICY',
+      book: 'COMPLAINTS BOOK'
+    }
+  }[lang];
+
+  const handleNewsSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newsEmail) return;
+    
+    setNewsStatus('loading');
+    try {
+      const response = await fetch(`https://formsubmit.co/ajax/${COMPANY_EMAIL}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ 
+          email: newsEmail, 
+          _subject: 'Nova Subscrição Newsletter - Solfil Website',
+          _captcha: "false"
+        })
+      });
+      
+      if (response.ok) {
+        setNewsStatus('success');
+        setNewsEmail('');
+        setTimeout(() => setNewsStatus('idle'), 5000);
+      } else {
+        throw new Error('Newsletter error');
+      }
+    } catch (err) {
+      console.error('Newsletter Error:', err);
+      setNewsStatus('error');
+      setTimeout(() => setNewsStatus('idle'), 4000);
+    }
+  };
+
+  return (
+    <footer className="bg-solfil-black text-white py-12 flex flex-col">
+      <div className="container mx-auto px-6">
+        {/* Newsletter Section - pb-12 para simetria com o topo */}
+        <div className="pb-12 border-b border-white/5">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <h3 className="text-solfil-orange font-black tracking-[0.4em] text-xs mb-4 uppercase">{t.newsTag}</h3>
+              <h2 className="text-3xl md:text-5xl font-light tracking-tighter uppercase leading-none">
+                {t.newsTitle1} <span className="font-semibold italic">{t.newsTitle2}</span>
+              </h2>
+            </div>
+            <div>
+              {newsStatus === 'success' ? (
+                <div className="bg-solfil-orange/20 border border-solfil-orange/30 p-4 rounded-[32px] text-center animate-in zoom-in duration-300">
+                  <p className="text-solfil-orange font-bold text-sm tracking-widest uppercase">{t.newsSuccess}</p>
+                </div>
+              ) : (
+                <form onSubmit={handleNewsSubmit} className="flex flex-col sm:flex-row gap-3 p-2 bg-white/5 border border-white/10 rounded-[32px] transition-all focus-within:border-solfil-orange/50">
+                  <input type="text" name="_honey" style={{ display: 'none' }} />
+                  <input 
+                    type="email" 
+                    required
+                    value={newsEmail}
+                    onChange={(e) => setNewsEmail(e.target.value)}
+                    placeholder={t.newsPlace} 
+                    className="flex-1 bg-transparent px-6 py-4 text-sm focus:outline-none font-normal" 
+                  />
+                  <button 
+                    disabled={newsStatus === 'loading'}
+                    className="bg-solfil-orange text-white px-8 py-4 rounded-[24px] font-black text-xs hover:bg-white hover:text-solfil-black disabled:opacity-50 transition-all uppercase tracking-[0.2em]"
+                  >
+                    {newsStatus === 'loading' ? '...' : t.newsBtn}
+                  </button>
+                </form>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Main Footer Grid - py-12 garante a simetria entre as linhas divisórias */}
+        <div className="py-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-16 lg:gap-8 items-start">
+            
+            {/* COLUNA 1: Logo e Descrição */}
+            <div className="lg:col-span-3 space-y-8">
+               <img src={logoUrl} alt="Solfil" className="h-10 brightness-0 invert" />
+               <p className="text-white/60 leading-relaxed font-normal text-base max-w-sm">
+                 {lang === 'PT' ? 'Qualidade e rigor no fornecimento de materiais de construção desde 1998.' : 'Quality and precision in construction material supply since 1998.'}
+               </p>
+               <div className="pt-4 space-y-4">
+                 <h4 className="text-solfil-orange font-black tracking-[0.4em] text-xs uppercase">{t.socialPoints}</h4>
+                 <div className="flex space-x-4">
+                   {['FB', 'IG'].map(id => (
+                     <div key={id} className="w-11 h-11 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-solfil-orange hover:text-white transition-all cursor-pointer">
+                       <span className="text-[11px] font-bold text-white/50">{id}</span>
+                     </div>
+                   ))}
+                 </div>
+               </div>
+            </div>
+
+            {/* COLUNA 2: Horário e Switcher */}
+            <div className="lg:col-span-5 space-y-12">
+              <div className="space-y-6">
+                <h4 className="font-semibold text-xs tracking-[0.4em] text-solfil-orange uppercase">{t.hoursTitle}</h4>
+                <div className="space-y-4 w-full lg:max-w-md">
+                  <div className="flex justify-between border-b border-white/5 pb-2">
+                    <span className="text-[11px] font-bold text-white/40 uppercase">{t.weekLabel}</span>
+                    <span className="text-sm">{locations[activeLoc].hours.week}</span>
+                  </div>
+                  <div className="flex justify-between border-b border-white/5 pb-2">
+                    <span className="text-[11px] font-bold text-white/40 uppercase">{t.satLabel}</span>
+                    <span className="text-sm">{locations[activeLoc].hours.saturday}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-[11px] font-bold text-white/40 uppercase">{t.sunLabel}</span>
+                    <span className="text-sm text-red-500 font-bold">{locations[activeLoc].hours.sunday[lang]}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-6">
+                <h4 className="font-semibold text-xs tracking-[0.4em] text-solfil-orange uppercase">{t.where}</h4>
+                <div className="flex p-1 bg-white/5 rounded-2xl border border-white/10 max-w-xs">
+                  {locations.map((loc, idx) => (
+                    <button 
+                      key={idx} 
+                      onClick={() => setActiveLoc(idx)} 
+                      className={`flex-1 py-3 rounded-xl text-[11px] font-black uppercase transition-all ${activeLoc === idx ? 'bg-solfil-orange text-white' : 'text-white/40 hover:text-white/60'}`}
+                    >
+                      {loc.name}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* COLUNA 3: Info Dinâmica - ESTABILIZADA com min-h para evitar saltos */}
+            <div className="lg:col-span-4 space-y-8 min-h-[320px] animate-in fade-in duration-500" key={activeLoc}>
+              <div className="space-y-4">
+                <h4 className="font-semibold text-xs tracking-[0.4em] text-solfil-orange uppercase">{t.addrLabel}</h4>
+                <a href={locations[activeLoc].mapUrl} target="_blank" rel="noopener noreferrer" className="block text-white/80 hover:text-solfil-orange transition-colors">
+                  {locations[activeLoc].address}
+                </a>
+              </div>
+
+              <div className="space-y-4">
+                <h4 className="font-semibold text-xs tracking-[0.4em] text-solfil-orange uppercase">{t.contactLabel}</h4>
+                <div className="space-y-3">
+                  <a href={`tel:${locations[activeLoc].phoneRaw}`} className="block text-white font-bold text-xl hover:text-solfil-orange transition-colors">
+                    {locations[activeLoc].phone}
+                  </a>
+                  <p className="text-white/50 text-base">{locations[activeLoc].email}</p>
+                </div>
+              </div>
+
+              {locations[activeLoc].note && (
+                <div className="p-6 bg-solfil-orange/10 border border-solfil-orange/20 rounded-[24px]">
+                  <p className="text-solfil-orange text-xs font-bold leading-relaxed">
+                    {locations[activeLoc].note[lang]}
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Footer Bottom Bar - pt-12 para simetria com a linha de cima */}
+        <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-white/20 text-[9px] font-black tracking-[0.4em] uppercase w-full">
+           <div className="text-left">
+             SOLFIL, SA @ 2026 DESENVOLVIDO PELA <a href="https://www.aorubro.pt" target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-solfil-orange">AORUBRO</a>
+           </div>
+           <div className="flex gap-8 items-center">
+             <button onClick={() => setIsPrivacyOpen(true)} className="hover:text-solfil-orange uppercase">{t.priv}</button>
+             <a href="https://www.livroreclamacoes.pt" target="_blank" rel="noopener noreferrer" className="hover:text-solfil-orange">{t.book}</a>
+           </div>
+        </div>
+      </div>
+
+      <PrivacyModal isOpen={isPrivacyOpen} onClose={() => setIsPrivacyOpen(false)} lang={lang} />
+    </footer>
+  );
+};
+
+export default Footer;
