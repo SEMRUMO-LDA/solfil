@@ -15,78 +15,127 @@ interface BrandCategory {
 
 const brandCategories: BrandCategory[] = [
   {
-    id: 'rev-pav',
-    title: { PT: 'Revestimentos e pavimentos', EN: 'Tiles & Flooring' },
+    id: 'argamassas',
+    title: { PT: 'Argamassas Técnicas', EN: 'Technical Mortars' },
     brands: [
-      { name: 'CORTES', logo: 'https://logo.clearbit.com/cortes.es?size=200' },
-      { name: 'KERION', logo: 'https://logo.clearbit.com/kerion.pt?size=200' },
-      { name: 'ARGENTA', logo: 'https://logo.clearbit.com/argentaceramica.com?size=200' },
-      { name: 'ETILE', logo: 'https://logo.clearbit.com/etile.es?size=200' },
-      { name: 'GRESPANIA', logo: 'https://logo.clearbit.com/grespania.com?size=200' },
-      { name: 'GRESART', logo: 'https://logo.clearbit.com/gresart.pt?size=200' },
-      { name: 'METROPOL', logo: 'https://logo.clearbit.com/metropol-ceramica.com?size=200' },
-      { name: 'GRES ARAGÓN', logo: 'https://logo.clearbit.com/gresaragon.com?size=200' },
-      { name: 'CLIPER', logo: 'https://logo.clearbit.com/cliper.pt?size=200' },
-      { name: 'INTERMATEX', logo: 'https://logo.clearbit.com/intermatex.com?size=200' },
-      { name: 'KERABEN', logo: 'https://logo.clearbit.com/keraben.com?size=200' },
+      { name: 'WEBER', logo: '/img/logo-weber.png' },
+      { name: 'KERAKOLL', logo: '/img/logo-kerakoll.webp' },
+    ]
+  },
+  {
+    id: 'banheiras',
+    title: { PT: 'Banheiras e Bases de Duche', EN: 'Bathtubs & Shower Trays' },
+    brands: [
+      { name: 'ORBU', logo: '/img/logo-orbu.png' },
+      { name: 'SANINDUSA', logo: '/img/logo-sanindusa.png' },
+      { name: 'SANITANA', logo: '/img/logo-sanitana.png' },
+      { name: 'VALADARES', logo: '/img/logo-valadares.png' },
+      { name: 'AQUORE', logo: '/img/logo-aquore.jpg' },
+    ]
+  },
+  {
+    id: 'flutuante',
+    title: { PT: 'Flutuante e Vinílico', EN: 'Floating & Vinyl Flooring' },
+    brands: [
+      { name: 'TERCOBER', logo: '/img/logo-tercocer.svg' },
+    ]
+  },
+  {
+    id: 'isolamentos',
+    title: { PT: 'Isolamentos Térmicos e Acústicos', EN: 'Thermal & Acoustic Insulation' },
+    brands: [
+      { name: 'DANOSA', logo: '/img/logo-danosa.svg' },
+      { name: 'SOPREMA', logo: '/img/logo-soprema.webp' },
+      { name: 'IBERFIBRAN', logo: '/img/logo-fibran.png' },
+    ]
+  },
+  {
+    id: 'estruturais',
+    title: { PT: 'Materiais Estruturais', EN: 'Structural Materials' },
+    brands: [
+      { name: 'CIMPOR', logo: '/img/logo-cimpor.png' },
+      { name: 'SECIL', logo: '/img/logo-secil.svg' },
+      { name: 'VERDASCA', logo: '/img/logo-verdasca.svg' },
+      { name: 'TORREENSE', logo: '/img/logo-torreense.svg' },
     ]
   },
   {
     id: 'mob-banho',
     title: { PT: 'Mobiliário de casa de banho', EN: 'Bathroom Furniture' },
     brands: [
-      { name: 'ROCA', logo: 'https://logo.clearbit.com/roca.pt?size=200' },
-      { name: 'SANINDUSA', logo: 'https://logo.clearbit.com/sanindusa.pt?size=200' },
-      { name: 'BANHOAZUL', logo: 'https://logo.clearbit.com/banhoazul.pt?size=200' },
+      { name: 'MOVILUX', logo: '/img/logo-moovlux.svg' },
+      { name: 'BANHOAZIS', logo: '/img/logo-banhoazis.svg' },
+      { name: 'VISOBATH', logo: '/img/logo-viso.svg' },
+      { name: 'AQUORE', logo: '/img/logo-aquore.jpg' },
+      { name: 'SANINDUSA', logo: '/img/logo-sanindusa.png' },
+      { name: 'AVILA DOS', logo: '/img/logo-avilados.png' },
+      { name: 'EXBANHO', logo: '/img/logo-eban.webp' },
+      { name: 'VALADARES', logo: '/img/logo-valadares.png' },
     ]
   },
   {
-    id: 'loucas-san',
-    title: { PT: 'Louças sanitárias', EN: 'Sanitary Ware' },
+    id: 'rev-pav',
+    title: { PT: 'Pavimentos e Azulejos', EN: 'Tiles & Flooring' },
     brands: [
-      { name: 'GEBERIT', logo: 'https://logo.clearbit.com/geberit.pt?size=200' },
-      { name: 'VALADARES', logo: 'https://logo.clearbit.com/valadares.pt?size=200' },
+      { name: 'PAVIGRÉS', logo: '/img/logo-pavigres.svg' },
+      { name: 'CINCA', logo: '/img/logo-cinca.png' },
+      { name: 'GRESART', logo: '/img/logo-gresart.svg' },
+      { name: 'GRESCO', logo: '/img/logo-gresco.webp' },
+      { name: 'MARGRES', logo: '/img/logo-margres.svg' },
+      { name: 'LOVE TILES', logo: '/img/logo-love.svg' },
+      { name: 'PAMESA', logo: '/img/logo-pamesa.png' },
+      { name: 'CERTECA', logo: '/img/logo-certeca.png' },
     ]
   },
   {
-    id: 'torneiras',
-    title: { PT: 'Torneiras', EN: 'Taps & Faucets' },
+    id: 'resguardos',
+    title: { PT: 'Resguardos de Duche', EN: 'Shower Enclosures' },
     brands: [
-      { name: 'GROHE', logo: 'https://logo.clearbit.com/grohe.pt?size=200' },
-      { name: 'ASM', logo: 'https://logo.clearbit.com/asm-taps.com?size=200' },
-      { name: 'BRUMA', logo: 'https://logo.clearbit.com/bruma.pt?size=200' },
+      { name: 'ITALBOX', logo: '/img/logo-italbox.webp' },
+      { name: 'H-DUO', logo: '/img/logo-hduo.png' },
+      { name: 'AQUORE', logo: '/img/logo-aquore.jpg' },
+      { name: 'SANINDUSA', logo: '/img/logo-sanindusa.png' },
+    ]
+  },
+  {
+    id: 'revestimentos-piscinas',
+    title: { PT: 'Revestimentos de Piscinas', EN: 'Pool Coatings' },
+    brands: [
+      { name: 'REVIGLASS', logo: '/img/logo-reviglass.webp' },
+      { name: 'MOSAVIT', logo: '/img/logo-mosavit.jpg' },
+      { name: 'EZARRI', logo: '/img/logo-ezarri.svg' },
+    ]
+  },
+  {
+    id: 'sanitarias',
+    title: { PT: 'Sanitárias', EN: 'Sanitary Ware' },
+    brands: [
+      { name: 'SANINDUSA', logo: '/img/logo-sanindusa.png' },
+      { name: 'SANITANA', logo: '/img/logo-sanitana.png' },
+      { name: 'AQUORE', logo: '/img/logo-aquore.jpg' },
+      { name: 'VALADARES', logo: '/img/logo-valadares.png' },
     ]
   },
   {
     id: 'toalheiros',
     title: { PT: 'Toalheiros', EN: 'Towel Rails' },
     brands: [
-      { name: 'IRSAP', logo: 'https://logo.clearbit.com/irsap.com?size=200' },
-      { name: 'FOURSTEEL', logo: 'https://logo.clearbit.com/foursteel.com?size=200' },
+      { name: 'MIRTAK', logo: '/img/logo-mirtak.webp' },
+      { name: 'IMEX', logo: '/img/logo-imex.webp' },
+      { name: 'AQUORE', logo: '/img/logo-aquore.jpg' },
     ]
   },
   {
-    id: 'flutuante',
-    title: { PT: 'Flutuante e vinílico', EN: 'Floating & Vinyl Flooring' },
+    id: 'torneiras',
+    title: { PT: 'Torneiras', EN: 'Taps & Faucets' },
     brands: [
-      { name: 'QUICK-STEP', logo: 'https://logo.clearbit.com/quick-step.pt?size=200' },
-      { name: 'TARKETT', logo: 'https://logo.clearbit.com/tarkett.com?size=200' },
-    ]
-  },
-  {
-    id: 'mosaico',
-    title: { PT: 'Mosaico piscina', EN: 'Pool Mosaics' },
-    brands: [
-      { name: 'EZARRI', logo: 'https://logo.clearbit.com/ezarri.com?size=200' },
-      { name: 'HISBALIT', logo: 'https://logo.clearbit.com/hisbalit.es?size=200' },
-    ]
-  },
-  {
-    id: 'resguardo',
-    title: { PT: 'Resguardo de duche', EN: 'Shower Enclosures' },
-    brands: [
-      { name: 'PROVEX', logo: 'https://logo.clearbit.com/provex.eu?size=200' },
-      { name: 'PROFILTEK', logo: 'https://logo.clearbit.com/profiltek.com?size=200' },
+      { name: 'SANINDUSA', logo: '/img/logo-sanindusa.png' },
+      { name: 'SANITANA', logo: '/img/logo-sanitana.png' },
+      { name: 'IMEX', logo: '/img/logo-imex.webp' },
+      { name: 'KLUDI', logo: '/img/logo-kludi.png' },
+      { name: 'TRES', logo: '/img/logo-tres.svg' },
+      { name: 'VALADARES', logo: '/img/logo-valadares.png' },
+      { name: 'MIRTAK', logo: '/img/logo-mirtak.webp' },
     ]
   },
 ];
@@ -129,9 +178,8 @@ const Brands: React.FC<{ lang: Language }> = ({ lang }) => {
               <button
                 key={cat.id}
                 onClick={() => setActiveTab(cat.id)}
-                className={`whitespace-nowrap lg:whitespace-normal text-left px-6 py-5 rounded-2xl lg:rounded-xl text-[11px] font-bold uppercase tracking-wider transition-all duration-300 ${
-                  activeTab === cat.id ? 'bg-solfil-orange text-white shadow-lg' : 'bg-white text-solfil-gray border border-gray-100'
-                }`}
+                className={`whitespace-nowrap lg:whitespace-normal text-left px-6 py-5 rounded-2xl lg:rounded-xl text-[11px] font-bold uppercase tracking-wider transition-all duration-300 ${activeTab === cat.id ? 'bg-solfil-orange text-white shadow-lg' : 'bg-white text-solfil-gray border border-gray-100'
+                  }`}
               >
                 {cat.title[lang]}
               </button>

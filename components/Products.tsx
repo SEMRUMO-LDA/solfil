@@ -11,16 +11,18 @@ const Products: React.FC<{ lang: Language }> = ({ lang }) => {
       brandsCta: 'CONHEÇA AS MARCAS',
       partnerTag: 'TRABALHAMOS COM OS MELHORES PARCEIROS',
       categories: [
-        { title: 'Pavimentos & Azulejos', description: 'Transforme a sua casa num refúgio de elegância com os nossos azulejos e pavimentos exclusivos.' },
-        { title: 'Sanitários', description: 'Design sofisticado e funcionalidade de alta qualidade para ambientes requintados.' },
-        { title: 'Torneiras', description: 'Elevando a estética com torneiras exclusivas, a fusão perfeita de forma e função.' },
-        { title: 'Mobiliário de casa de banho', description: 'Estilo ímpar, mobiliário de casa de banho exclusivo, elevando o conforto e funcionalidade diária.' },
-        { title: 'Mosaico piscinas', description: 'Estilo artisticamente refinado e durabilidade superior em cada peça.' },
-        { title: 'Banheiras e bases de duche', description: 'Conforto personalizado para banhos extraordinários.' },
-        { title: 'Toalheiros', description: 'Elegância funcional, adicione um toque de luxo ao seu espaço.' },
-        { title: 'Cozinhas por Medida', description: 'O coração da sua casa com design personalizado e materiais de alta durabilidade.' },
-        { title: 'Isolamentos Técnicos', description: 'Eficiência energética e conforto acústico com soluções de última geração.' },
+        { title: 'Argamassas Técnicas', description: 'Soluções profissionais para colagem e betumação de cerâmica.' },
+        { title: 'Banheiras e Bases de Duche', description: 'Conforto personalizado para banhos extraordinários e relaxantes.' },
+        { title: 'Flutuante e Vinílico', description: 'Conforto e resistência com as nossas soluções de pavimentos flutuantes.' },
+        { title: 'Isolamentos Térmicos e Acústicos', description: 'Eficiência energética e conforto acústico com soluções de última geração.' },
         { title: 'Materiais Estruturais', description: 'Cimento, tijolo e aço: a base sólida e certificada para qualquer construção.' },
+        { title: 'Mobiliário de casa de banho', description: 'Estilo ímpar, mobiliário exclusivo, elevando o conforto e funcionalidade diária.' },
+        { title: 'Pavimentos e Azulejos', description: 'Transforme a sua casa num refúgio de elegância com os nossos azulejos e pavimentos exclusivos.' },
+        { title: 'Resguardos de Duche', description: 'Soluções elegantes e duradouras para o seu espaço de banho.' },
+        { title: 'Revestimentos de Piscinas', description: 'Estilo artisticamente refinado e durabilidade superior para a sua piscina.' },
+        { title: 'Sanitárias', description: 'Design sofisticado e funcionalidade de alta qualidade para ambientes requintados.' },
+        { title: 'Toalheiros', description: 'Elegância funcional, adicione um toque de luxo ao seu espaço.' },
+        { title: 'Torneiras', description: 'Elevando a estética com torneiras exclusivas, a fusão perfeita de forma e função.' },
       ]
     },
     EN: {
@@ -30,16 +32,18 @@ const Products: React.FC<{ lang: Language }> = ({ lang }) => {
       brandsCta: 'DISCOVER OUR BRANDS',
       partnerTag: 'WE WORK WITH THE BEST PARTNERS',
       categories: [
-        { title: 'Flooring & Tiles', description: 'Transform your home into a haven of elegance with our exclusive tiles and flooring.' },
-        { title: 'Sanitary Ware', description: 'Sophisticated design and high-quality functionality for refined environments.' },
-        { title: 'Taps & Faucets', description: 'Elevating aesthetics with exclusive faucets, the perfect fusion of form and function.' },
-        { title: 'Bathroom Furniture', description: 'Unique style, exclusive bathroom furniture, elevating daily comfort and functionality.' },
-        { title: 'Pool Mosaics', description: 'Artistically refined style and superior durability in every single piece.' },
-        { title: 'Bathtubs & Shower Trays', description: 'Personalized comfort for extraordinary bathing experiences.' },
-        { title: 'Towel Rails', description: 'Functional elegance, add a touch of luxury to your space.' },
-        { title: 'Custom Kitchens', description: 'The heart of your home with personalized design and high-durability materials.' },
-        { title: 'Technical Insulation', description: 'Energy efficiency and acoustic comfort with state-of-the-art solutions.' },
+        { title: 'Technical Mortars', description: 'Professional solutions for bonding and grouting ceramics.' },
+        { title: 'Bathtubs & Shower Trays', description: 'Personalized comfort for extraordinary and relaxing baths.' },
+        { title: 'Floating & Vinyl Flooring', description: 'Comfort and resistance with our floating flooring solutions.' },
+        { title: 'Thermal & Acoustic Insulation', description: 'Energy efficiency and acoustic comfort with state-of-the-art solutions.' },
         { title: 'Structural Materials', description: 'Cement, brick, and steel: the solid and certified foundation for any construction.' },
+        { title: 'Bathroom Furniture', description: 'Unique style, exclusive furniture, elevating daily comfort and functionality.' },
+        { title: 'Flooring & Tiles', description: 'Transform your home into a haven of elegance with our exclusive tiles and flooring.' },
+        { title: 'Shower Enclosures', description: 'Elegant and durable solutions for your bathroom space.' },
+        { title: 'Pool Coatings', description: 'Artistically refined style and superior durability for your pool.' },
+        { title: 'Sanitary Ware', description: 'Sophisticated design and high-quality functionality for refined environments.' },
+        { title: 'Towel Rails', description: 'Functional elegance, add a touch of luxury to your space.' },
+        { title: 'Taps & Faucets', description: 'Elevating aesthetics with exclusive faucets, the perfect fusion of form and function.' },
       ]
     }
   };
@@ -47,16 +51,18 @@ const Products: React.FC<{ lang: Language }> = ({ lang }) => {
   const t = translations[lang];
 
   const images = [
-    'https://images.unsplash.com/photo-1516455590571-18256e5bb9ff?auto=format&fit=crop&q=80&w=1200',
-    'https://sanindusa.com/media/resized/Colecao-Sanlife-600.jpg',
-    'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=1200',
-    'https://sanindusa.com/media/Sanlife-Amb-4-65c3cb6fd699c.jpg',
-    'https://images.unsplash.com/photo-1560015534-cee980ba7e13?auto=format&fit=crop&q=80&w=1200',
-    'https://www.roca.pt/RocaResourceServlet/resources/getTransformation?idObject=%7B8AC68E71-AA87-4335-B462-2F2A6B61EDBF%7D&trName=TF_Web_Big',
-    'https://images.unsplash.com/photo-1604709177595-ee9c2580e9a3?auto=format&fit=crop&q=80&w=1200',
-    'https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&q=80&w=1200',
-    'https://images.unsplash.com/photo-1585140501042-759c15bd0ca0?auto=format&fit=crop&q=80&w=1200',
-    'https://images.unsplash.com/photo-1541888946425-d81bb19480c5?auto=format&fit=crop&q=80&w=1200'
+    'https://images.unsplash.com/photo-1595846519845-68e298c2edd8?auto=format&fit=crop&q=80&w=1200', // Argamassas
+    'https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&q=80&w=1200', // Banheiras
+    'https://images.unsplash.com/photo-1581858726768-fd12111e0586?auto=format&fit=crop&q=80&w=1200', // Flutuante
+    'https://images.unsplash.com/photo-1504307651254-35680fb3ba66?auto=format&fit=crop&q=80&w=1200', // Isolamentos
+    'https://images.unsplash.com/photo-1541888946425-d81bb19480c5?auto=format&fit=crop&q=80&w=1200', // Estruturais
+    'https://sanindusa.com/media/Sanlife-Amb-4-65c3cb6fd699c.jpg', // Mobiliário
+    'https://images.unsplash.com/photo-1516455590571-18256e5bb9ff?auto=format&fit=crop&q=80&w=1200', // Pavimentos
+    'https://images.unsplash.com/photo-1585140501042-759c15bd0ca0?auto=format&fit=crop&q=80&w=1200', // Resguardos
+    'https://images.unsplash.com/photo-1560015534-cee980ba7e13?auto=format&fit=crop&q=80&w=1200', // Piscinas
+    'https://sanindusa.com/media/resized/Colecao-Sanlife-600.jpg', // Sanitárias
+    'https://images.unsplash.com/photo-1620626012053-1c1ad2506d87?auto=format&fit=crop&q=80&w=1200', // Toalheiros
+    'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=1200'  // Torneiras
   ];
 
   return (
@@ -69,7 +75,7 @@ const Products: React.FC<{ lang: Language }> = ({ lang }) => {
           </h2>
         </div>
         <div className="max-w-xl">
-           <p className="text-solfil-gray text-lg md:text-xl font-normal leading-relaxed mb-4">
+          <p className="text-solfil-gray text-lg md:text-xl font-normal leading-relaxed mb-4">
             {t.desc}
           </p>
         </div>
@@ -78,32 +84,32 @@ const Products: React.FC<{ lang: Language }> = ({ lang }) => {
       <div className="space-y-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {t.categories.slice(0, 3).map((prod, idx) => (
-            <ProductCard key={idx} prod={{...prod, image: images[idx]}} />
+            <ProductCard key={idx} prod={{ ...prod, image: images[idx] }} />
           ))}
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {t.categories.slice(3, 6).map((prod, idx) => (
-            <ProductCard key={idx} prod={{...prod, image: images[idx + 3]}} />
+            <ProductCard key={idx} prod={{ ...prod, image: images[idx + 3] }} />
           ))}
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {t.categories.slice(6).map((prod, idx) => (
-            <ProductCard key={idx} prod={{...prod, image: images[idx + 6]}} />
+            <ProductCard key={idx} prod={{ ...prod, image: images[idx + 6] }} />
           ))}
         </div>
       </div>
 
       <div className="mt-32 pb-10 flex flex-col items-center text-center">
-         <p className="text-solfil-gray/50 text-[10px] font-bold uppercase tracking-[0.5em] mb-10">{t.partnerTag}</p>
-         <a href="#marcas" className="group flex flex-col items-center cursor-pointer">
-            <div className="relative mb-6">
-              <span className="text-sm font-black tracking-[0.5em] uppercase text-solfil-black">{t.brandsCta}</span>
-              <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-0 h-[2px] bg-solfil-orange transition-all duration-500 group-hover:w-full"></div>
-            </div>
-            <svg className="w-5 h-5 text-solfil-orange/30 transition-all duration-500 group-hover:translate-y-3 group-hover:text-solfil-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
-            </svg>
-         </a>
+        <p className="text-solfil-gray/50 text-[10px] font-bold uppercase tracking-[0.5em] mb-10">{t.partnerTag}</p>
+        <a href="#marcas" className="group flex flex-col items-center cursor-pointer">
+          <div className="relative mb-6">
+            <span className="text-sm font-black tracking-[0.5em] uppercase text-solfil-black">{t.brandsCta}</span>
+            <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-0 h-[2px] bg-solfil-orange transition-all duration-500 group-hover:w-full"></div>
+          </div>
+          <svg className="w-5 h-5 text-solfil-orange/30 transition-all duration-500 group-hover:translate-y-3 group-hover:text-solfil-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+          </svg>
+        </a>
       </div>
     </div>
   );

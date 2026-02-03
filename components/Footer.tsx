@@ -7,9 +7,8 @@ interface LocationInfo {
   name: string;
   address: string;
   mapUrl: string;
-  phone: string;
-  phoneRaw: string;
-  email: string;
+  phones: { number: string; raw: string }[];
+  emails: string[];
   note?: { PT: string, EN: string };
   hours: {
     week: string;
@@ -23,23 +22,27 @@ const locations: LocationInfo[] = [
     name: 'Vale de Parra',
     address: 'Estrada Nacional 125, Vale de Parra\n8200-427 Albufeira, Portugal',
     mapUrl: 'https://www.google.com/maps/search/?api=1&query=Solfil+Vale+de+Parra+Albufeira',
-    phone: '+351 289 591 144',
-    phoneRaw: '351289591144',
-    email: 'vparra@solfil.pt',
-    note: { 
-      PT: 'O levantamento de material de exterior é sempre no nosso escritório de Vale de Parra', 
-      EN: 'Pick-up of outdoor materials is always at our Vale de Parra office' 
+    phones: [
+      { number: '+351 919 557 343', raw: '351919557343' },
+      { number: '+351 289 580 320', raw: '351289580320' }
+    ],
+    emails: ['telmo@solfil.pt'],
+    note: {
+      PT: 'O levantamento de material de exterior é sempre no nosso escritório de Vale de Parra',
+      EN: 'Pick-up of outdoor materials is always at our Vale de Parra office'
     },
-    hours: { week: '08h00 - 13h00 | 14h00 - 18h00', saturday: '08h00 - 13h00', sunday: { PT: 'Fechado', EN: 'Closed' } }
+    hours: { week: '07h30 - 12h30 | 14h00 - 18h00', saturday: 'Fechado', sunday: { PT: 'Fechado', EN: 'Closed' } }
   },
   {
     name: 'Ferreiras',
     address: 'Sítio das Ferreiras\n8200-555 Albufeira, Portugal',
     mapUrl: 'https://www.google.com/maps/search/?api=1&query=Solfil+Ferreiras+Albufeira',
-    phone: '+351 289 571 535',
-    phoneRaw: '351289571535',
-    email: 'ferreiras@solfil.pt',
-    hours: { week: '08h00 - 13h00 | 14h00 - 18h00', saturday: '08h00 - 13h00', sunday: { PT: 'Fechado', EN: 'Closed' } }
+    phones: [
+      { number: '+351 919 521 697', raw: '351919521697' },
+      { number: '+351 289 540 890', raw: '351289540890' }
+    ],
+    emails: ['dora@solfil.pt', 'cidalia@solfil.pt'],
+    hours: { week: '08h30 - 13h00 | 14h30 - 18h00', saturday: '09h00 - 13h00', sunday: { PT: 'Fechado', EN: 'Closed' } }
   }
 ];
 
@@ -48,9 +51,9 @@ const Footer: React.FC<{ lang: Language }> = ({ lang }) => {
   const [newsEmail, setNewsEmail] = useState('');
   const [newsStatus, setNewsStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
-  
+
   const logoUrl = "https://raw.githubusercontent.com/solfil/solfil/solfil-assets/assets/logo.png";
-  
+
   const COMPANY_EMAIL = 'geral@solfil.pt';
 
   const t = {
@@ -95,19 +98,19 @@ const Footer: React.FC<{ lang: Language }> = ({ lang }) => {
   const handleNewsSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newsEmail) return;
-    
+
     setNewsStatus('loading');
     try {
       const response = await fetch(`https://formsubmit.co/ajax/${COMPANY_EMAIL}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({ 
-          email: newsEmail, 
+        body: JSON.stringify({
+          email: newsEmail,
           _subject: 'Nova Subscrição Newsletter - Solfil Website',
           _captcha: "false"
         })
       });
-      
+
       if (response.ok) {
         setNewsStatus('success');
         setNewsEmail('');
@@ -142,15 +145,15 @@ const Footer: React.FC<{ lang: Language }> = ({ lang }) => {
               ) : (
                 <form onSubmit={handleNewsSubmit} className="flex flex-col sm:flex-row gap-3 p-2 bg-white/5 border border-white/10 rounded-[32px] transition-all focus-within:border-solfil-orange/50">
                   <input type="text" name="_honey" style={{ display: 'none' }} />
-                  <input 
-                    type="email" 
+                  <input
+                    type="email"
                     required
                     value={newsEmail}
                     onChange={(e) => setNewsEmail(e.target.value)}
-                    placeholder={t.newsPlace} 
-                    className="flex-1 bg-transparent px-6 py-4 text-sm focus:outline-none font-normal" 
+                    placeholder={t.newsPlace}
+                    className="flex-1 bg-transparent px-6 py-4 text-sm focus:outline-none font-normal"
                   />
-                  <button 
+                  <button
                     disabled={newsStatus === 'loading'}
                     className="bg-solfil-orange text-white px-8 py-4 rounded-[24px] font-black text-xs hover:bg-white hover:text-solfil-black disabled:opacity-50 transition-all uppercase tracking-[0.2em]"
                   >
@@ -165,23 +168,23 @@ const Footer: React.FC<{ lang: Language }> = ({ lang }) => {
         {/* Main Footer Grid - py-12 garante a simetria entre as linhas divisórias */}
         <div className="py-12">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-16 lg:gap-8 items-start">
-            
+
             {/* COLUNA 1: Logo e Descrição */}
             <div className="lg:col-span-3 space-y-8">
-               <img src={logoUrl} alt="Solfil" className="h-10 brightness-0 invert" />
-               <p className="text-white/60 leading-relaxed font-normal text-base max-w-sm">
-                 {lang === 'PT' ? 'Qualidade e rigor no fornecimento de materiais de construção desde 1998.' : 'Quality and precision in construction material supply since 1998.'}
-               </p>
-               <div className="pt-4 space-y-4">
-                 <h4 className="text-solfil-orange font-black tracking-[0.4em] text-xs uppercase">{t.socialPoints}</h4>
-                 <div className="flex space-x-4">
-                   {['FB', 'IG'].map(id => (
-                     <div key={id} className="w-11 h-11 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-solfil-orange hover:text-white transition-all cursor-pointer">
-                       <span className="text-[11px] font-bold text-white/50">{id}</span>
-                     </div>
-                   ))}
-                 </div>
-               </div>
+              <img src={logoUrl} alt="Solfil" className="h-10 brightness-0 invert" />
+              <p className="text-white/60 leading-relaxed font-normal text-base max-w-sm">
+                {lang === 'PT' ? 'Qualidade e rigor no fornecimento de materiais de construção desde 1986.' : 'Quality and precision in construction material supply since 1986.'}
+              </p>
+              <div className="pt-4 space-y-4">
+                <h4 className="text-solfil-orange font-black tracking-[0.4em] text-xs uppercase">{t.socialPoints}</h4>
+                <div className="flex space-x-4">
+                  {['FB', 'IG'].map(id => (
+                    <div key={id} className="w-11 h-11 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-solfil-orange hover:text-white transition-all cursor-pointer">
+                      <span className="text-[11px] font-bold text-white/50">{id}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
 
             {/* COLUNA 2: Horário e Switcher */}
@@ -208,9 +211,9 @@ const Footer: React.FC<{ lang: Language }> = ({ lang }) => {
                 <h4 className="font-semibold text-xs tracking-[0.4em] text-solfil-orange uppercase">{t.where}</h4>
                 <div className="flex p-1 bg-white/5 rounded-2xl border border-white/10 max-w-xs">
                   {locations.map((loc, idx) => (
-                    <button 
-                      key={idx} 
-                      onClick={() => setActiveLoc(idx)} 
+                    <button
+                      key={idx}
+                      onClick={() => setActiveLoc(idx)}
                       className={`flex-1 py-3 rounded-xl text-[11px] font-black uppercase transition-all ${activeLoc === idx ? 'bg-solfil-orange text-white' : 'text-white/40 hover:text-white/60'}`}
                     >
                       {loc.name}
@@ -232,10 +235,16 @@ const Footer: React.FC<{ lang: Language }> = ({ lang }) => {
               <div className="space-y-4">
                 <h4 className="font-semibold text-xs tracking-[0.4em] text-solfil-orange uppercase">{t.contactLabel}</h4>
                 <div className="space-y-3">
-                  <a href={`tel:${locations[activeLoc].phoneRaw}`} className="block text-white font-bold text-xl hover:text-solfil-orange transition-colors">
-                    {locations[activeLoc].phone}
-                  </a>
-                  <p className="text-white/50 text-base">{locations[activeLoc].email}</p>
+                  {locations[activeLoc].phones.map((phone, i) => (
+                    <a key={i} href={`tel:${phone.raw}`} className="block text-white font-bold text-xl hover:text-solfil-orange transition-colors">
+                      {phone.number}
+                    </a>
+                  ))}
+                  <div className="pt-1">
+                    {locations[activeLoc].emails.map((email, i) => (
+                      <a key={i} href={`mailto:${email}`} className="block text-white/50 text-base hover:text-white transition-colors">{email}</a>
+                    ))}
+                  </div>
                 </div>
               </div>
 
@@ -252,13 +261,13 @@ const Footer: React.FC<{ lang: Language }> = ({ lang }) => {
 
         {/* Footer Bottom Bar - pt-12 para simetria com a linha de cima */}
         <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-white/20 text-[9px] font-black tracking-[0.4em] uppercase w-full">
-           <div className="text-left">
-             SOLFIL, SA @ 2026 DESENVOLVIDO PELA <a href="https://www.aorubro.pt" target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-solfil-orange">AORUBRO</a>
-           </div>
-           <div className="flex gap-8 items-center">
-             <button onClick={() => setIsPrivacyOpen(true)} className="hover:text-solfil-orange uppercase">{t.priv}</button>
-             <a href="https://www.livroreclamacoes.pt" target="_blank" rel="noopener noreferrer" className="hover:text-solfil-orange">{t.book}</a>
-           </div>
+          <div className="text-left">
+            SOLFIL, SA @ 2026 DESENVOLVIDO PELA <a href="https://www.aorubro.pt" target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-solfil-orange">AORUBRO</a>
+          </div>
+          <div className="flex gap-8 items-center">
+            <button onClick={() => setIsPrivacyOpen(true)} className="hover:text-solfil-orange uppercase">{t.priv}</button>
+            <a href="https://www.livroreclamacoes.pt" target="_blank" rel="noopener noreferrer" className="hover:text-solfil-orange">{t.book}</a>
+          </div>
         </div>
       </div>
 
