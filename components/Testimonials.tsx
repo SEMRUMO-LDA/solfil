@@ -86,8 +86,18 @@ const Testimonials: React.FC<{ lang: Language }> = ({ lang }) => {
         </div>
       </div>
 
-      <div ref={scrollRef} className="no-scrollbar slider-full-bleed lg:w-auto lg:static lg:m-0 lg:px-0 lg:overflow-x-auto">
-        <div className="flex gap-8 py-20 overflow-visible">
+      <div
+        ref={scrollRef}
+        className="no-scrollbar flex gap-8 py-20 overflow-x-auto overflow-y-visible"
+        style={{
+          width: '100vw',
+          marginLeft: 'calc(-50vw + 50%)',
+          paddingLeft: 'max(1.5rem, calc(50% - 600px + 1.5rem))',
+          paddingRight: 'max(1.5rem, calc(50% - 600px + 1.5rem))',
+          scrollSnapType: 'x mandatory'
+        }}
+      >
+        <div className="flex gap-8">
           {testimonials.map((test) => (
             <div key={test.id} className="min-w-[85vw] md:min-w-[45vw] bg-white p-10 rounded-[40px] shadow-sm hover:shadow-[0_20px_50px_rgba(254,80,0,0.15)] hover:-translate-y-3 transition-all duration-700 border border-gray-100 flex flex-col justify-between group">
               <div className="relative pt-4">
