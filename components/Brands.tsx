@@ -1,148 +1,14 @@
-
-import React, { useState } from 'react';
+import React from 'react';
 import { Language } from '../types';
+import { brandCategories } from '../data/brandCategories';
 
-interface Brand {
-  name: string;
-  logo: string;
+interface BrandsProps {
+  lang: Language;
+  activeTab: string;
+  setActiveTab: (id: string) => void;
 }
 
-interface BrandCategory {
-  id: string;
-  title: { PT: string, EN: string };
-  brands: Brand[];
-}
-
-const brandCategories: BrandCategory[] = [
-  {
-    id: 'argamassas',
-    title: { PT: 'Argamassas Técnicas', EN: 'Technical Mortars' },
-    brands: [
-      { name: 'WEBER', logo: '/img/logo-weber.png' },
-      { name: 'KERAKOLL', logo: '/img/logo-kerakoll.webp' },
-    ]
-  },
-  {
-    id: 'banheiras',
-    title: { PT: 'Banheiras e Bases de Duche', EN: 'Bathtubs & Shower Trays' },
-    brands: [
-      { name: 'ORBU', logo: '/img/logo-orbu.png' },
-      { name: 'SANINDUSA', logo: '/img/logo-sanindusa.png' },
-      { name: 'SANITANA', logo: '/img/logo-sanitana.png' },
-      { name: 'VALADARES', logo: '/img/logo-valadares.png' },
-      { name: 'AQUORE', logo: '/img/logo-aquore.jpg' },
-    ]
-  },
-  {
-    id: 'flutuante',
-    title: { PT: 'Flutuante e Vinílico', EN: 'Floating & Vinyl Flooring' },
-    brands: [
-      { name: 'TERCOBER', logo: '/img/logo-tercocer.svg' },
-    ]
-  },
-  {
-    id: 'isolamentos',
-    title: { PT: 'Isolamentos Térmicos e Acústicos', EN: 'Thermal & Acoustic Insulation' },
-    brands: [
-      { name: 'DANOSA', logo: '/img/logo-danosa.svg' },
-      { name: 'SOPREMA', logo: '/img/logo-soprema.webp' },
-      { name: 'IBERFIBRAN', logo: '/img/logo-fibran.png' },
-    ]
-  },
-  {
-    id: 'estruturais',
-    title: { PT: 'Materiais Estruturais', EN: 'Structural Materials' },
-    brands: [
-      { name: 'CIMPOR', logo: '/img/logo-cimpor.png' },
-      { name: 'SECIL', logo: '/img/logo-secil.svg' },
-      { name: 'VERDASCA', logo: '/img/logo-verdasca.svg' },
-      { name: 'TORREENSE', logo: '/img/logo-torreense.svg' },
-    ]
-  },
-  {
-    id: 'mob-banho',
-    title: { PT: 'Mobiliário de casa de banho', EN: 'Bathroom Furniture' },
-    brands: [
-      { name: 'MOVILUX', logo: '/img/logo-moovlux.svg' },
-      { name: 'BANHOAZIS', logo: '/img/logo-banhoazis.svg' },
-      { name: 'VISOBATH', logo: '/img/logo-viso.svg' },
-      { name: 'AQUORE', logo: '/img/logo-aquore.jpg' },
-      { name: 'SANINDUSA', logo: '/img/logo-sanindusa.png' },
-      { name: 'AVILA DOS', logo: '/img/logo-avilados.png' },
-      { name: 'EXBANHO', logo: '/img/logo-eban.webp' },
-      { name: 'VALADARES', logo: '/img/logo-valadares.png' },
-    ]
-  },
-  {
-    id: 'rev-pav',
-    title: { PT: 'Pavimentos e Azulejos', EN: 'Tiles & Flooring' },
-    brands: [
-      { name: 'PAVIGRÉS', logo: '/img/logo-pavigres.svg' },
-      { name: 'CINCA', logo: '/img/logo-cinca.png' },
-      { name: 'GRESART', logo: '/img/logo-gresart.svg' },
-      { name: 'GRESCO', logo: '/img/logo-gresco.webp' },
-      { name: 'MARGRES', logo: '/img/logo-margres.svg' },
-      { name: 'LOVE TILES', logo: '/img/logo-love.svg' },
-      { name: 'PAMESA', logo: '/img/logo-pamesa.png' },
-      { name: 'CERTECA', logo: '/img/logo-certeca.png' },
-    ]
-  },
-  {
-    id: 'resguardos',
-    title: { PT: 'Resguardos de Duche', EN: 'Shower Enclosures' },
-    brands: [
-      { name: 'ITALBOX', logo: '/img/logo-italbox.webp' },
-      { name: 'H-DUO', logo: '/img/logo-hduo.png' },
-      { name: 'AQUORE', logo: '/img/logo-aquore.jpg' },
-      { name: 'SANINDUSA', logo: '/img/logo-sanindusa.png' },
-    ]
-  },
-  {
-    id: 'revestimentos-piscinas',
-    title: { PT: 'Revestimentos de Piscinas', EN: 'Pool Coatings' },
-    brands: [
-      { name: 'REVIGLASS', logo: '/img/logo-reviglass.webp' },
-      { name: 'MOSAVIT', logo: '/img/logo-mosavit.jpg' },
-      { name: 'EZARRI', logo: '/img/logo-ezarri.svg' },
-    ]
-  },
-  {
-    id: 'sanitarias',
-    title: { PT: 'Sanitárias', EN: 'Sanitary Ware' },
-    brands: [
-      { name: 'SANINDUSA', logo: '/img/logo-sanindusa.png' },
-      { name: 'SANITANA', logo: '/img/logo-sanitana.png' },
-      { name: 'AQUORE', logo: '/img/logo-aquore.jpg' },
-      { name: 'VALADARES', logo: '/img/logo-valadares.png' },
-    ]
-  },
-  {
-    id: 'toalheiros',
-    title: { PT: 'Toalheiros', EN: 'Towel Rails' },
-    brands: [
-      { name: 'MIRTAK', logo: '/img/logo-mirtak.webp' },
-      { name: 'IMEX', logo: '/img/logo-imex.webp' },
-      { name: 'AQUORE', logo: '/img/logo-aquore.jpg' },
-    ]
-  },
-  {
-    id: 'torneiras',
-    title: { PT: 'Torneiras', EN: 'Taps & Faucets' },
-    brands: [
-      { name: 'SANINDUSA', logo: '/img/logo-sanindusa.png' },
-      { name: 'SANITANA', logo: '/img/logo-sanitana.png' },
-      { name: 'IMEX', logo: '/img/logo-imex.webp' },
-      { name: 'KLUDI', logo: '/img/logo-kludi.png' },
-      { name: 'TRES', logo: '/img/logo-tres.svg' },
-      { name: 'VALADARES', logo: '/img/logo-valadares.png' },
-      { name: 'MIRTAK', logo: '/img/logo-mirtak.webp' },
-    ]
-  },
-];
-
-const Brands: React.FC<{ lang: Language }> = ({ lang }) => {
-  const [activeTab, setActiveTab] = useState(brandCategories[0].id);
-
+const Brands: React.FC<BrandsProps> = ({ lang, activeTab, setActiveTab }) => {
   const activeCategory = brandCategories.find(c => c.id === activeTab);
 
   const t = {
@@ -173,12 +39,26 @@ const Brands: React.FC<{ lang: Language }> = ({ lang }) => {
 
       <div className="flex flex-col lg:flex-row gap-12 lg:gap-20">
         <aside className="w-full lg:w-80 flex-shrink-0">
-          <nav className="flex lg:flex-col overflow-x-auto no-scrollbar lg:overflow-visible gap-2 pb-4">
+          <div className="lg:hidden no-scrollbar slider-full-bleed">
+            <nav className="flex gap-4 py-8 overflow-visible">
+              {brandCategories.map((cat) => (
+                <button
+                  key={cat.id}
+                  onClick={() => setActiveTab(cat.id)}
+                  className={`whitespace-nowrap text-left px-6 py-5 rounded-2xl text-[11px] font-bold uppercase tracking-wider transition-all duration-300 ${activeTab === cat.id ? 'bg-solfil-orange text-white shadow-lg' : 'bg-white text-solfil-gray border border-gray-100'
+                    }`}
+                >
+                  {cat.title[lang]}
+                </button>
+              ))}
+            </nav>
+          </div>
+          <nav className="hidden lg:flex lg:flex-col gap-4">
             {brandCategories.map((cat) => (
               <button
                 key={cat.id}
                 onClick={() => setActiveTab(cat.id)}
-                className={`whitespace-nowrap lg:whitespace-normal text-left px-6 py-5 rounded-2xl lg:rounded-xl text-[11px] font-bold uppercase tracking-wider transition-all duration-300 ${activeTab === cat.id ? 'bg-solfil-orange text-white shadow-lg' : 'bg-white text-solfil-gray border border-gray-100'
+                className={`text-left px-6 py-5 rounded-xl text-[11px] font-bold uppercase tracking-wider transition-all duration-300 ${activeTab === cat.id ? 'bg-solfil-orange text-white shadow-lg' : 'bg-white text-solfil-gray border border-gray-100'
                   }`}
               >
                 {cat.title[lang]}
@@ -190,11 +70,17 @@ const Brands: React.FC<{ lang: Language }> = ({ lang }) => {
         <main className="flex-1 min-h-[400px]">
           <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-8 lg:gap-12 animate-in fade-in duration-500">
             {activeCategory?.brands.map((brand, idx) => (
-              <div key={idx} className="group flex flex-col items-center justify-center p-8 bg-white rounded-[32px] border border-gray-100 hover:border-solfil-orange/20 transition-all min-h-[160px]">
+              <a
+                key={idx}
+                href={brand.website}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex flex-col items-center justify-center p-8 bg-white rounded-[32px] border border-gray-100 hover:border-solfil-orange/20 transition-all min-h-[160px] cursor-pointer"
+              >
                 <div className="h-16 w-full flex items-center justify-center mb-4 overflow-hidden relative">
                   <img src={brand.logo} alt={brand.name} className="max-h-full max-w-full object-contain grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700" />
                 </div>
-              </div>
+              </a>
             ))}
           </div>
         </main>

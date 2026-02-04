@@ -235,14 +235,30 @@ const Footer: React.FC<{ lang: Language }> = ({ lang }) => {
               <div className="space-y-4">
                 <h4 className="font-semibold text-xs tracking-[0.4em] text-solfil-orange uppercase">{t.contactLabel}</h4>
                 <div className="space-y-3">
-                  {locations[activeLoc].phones.map((phone, i) => (
-                    <a key={i} href={`tel:${phone.raw}`} className="block text-white font-bold text-xl hover:text-solfil-orange transition-colors">
-                      {phone.number}
-                    </a>
-                  ))}
+                  {locations[activeLoc].phones.map((phone, i) => {
+                    const isMobile = phone.raw.startsWith('3519') || phone.raw.startsWith('9');
+                    const isFixed = phone.raw.startsWith('3512') || phone.raw.startsWith('2');
+                    return (
+                      <div key={i} className="mb-4 last:mb-0">
+                        <a href={`tel:${phone.raw}`} className="flex items-center gap-3 text-white font-bold text-xl hover:text-solfil-orange transition-colors mb-1">
+                          <svg className="w-5 h-5 text-solfil-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                          </svg>
+                          {phone.number}
+                        </a>
+                        {isMobile && <span className="block text-[8px] text-white/30 uppercase tracking-widest pl-8">(chamada para rede móvel nacional)</span>}
+                        {isFixed && <span className="block text-[8px] text-white/30 uppercase tracking-widest pl-8">(chamada para rede fixa nacional)</span>}
+                      </div>
+                    );
+                  })}
                   <div className="pt-1">
                     {locations[activeLoc].emails.map((email, i) => (
-                      <a key={i} href={`mailto:${email}`} className="block text-white/50 text-base hover:text-white transition-colors">{email}</a>
+                      <a key={i} href={`mailto:${email}`} className="flex items-center gap-3 text-white/50 text-base hover:text-white transition-colors">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                        {email}
+                      </a>
                     ))}
                   </div>
                 </div>

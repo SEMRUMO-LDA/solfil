@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
@@ -11,20 +10,30 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import WhatsAppButton from './components/WhatsAppButton';
 import { Language } from './types';
+import { brandCategories } from './data/brandCategories';
 
 const App: React.FC = () => {
   const [lang, setLang] = useState<Language>('PT');
+  const [activeBrandTab, setActiveBrandTab] = useState<string>(brandCategories[0].id);
+
+  const handleCategorySelect = (id: string) => {
+    setActiveBrandTab(id);
+    const brandsSection = document.getElementById('marcas');
+    if (brandsSection) {
+      brandsSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
-    <div className="relative overflow-x-hidden">
+    <div className="relative">
       <Header lang={lang} setLang={setLang} />
       <main>
         <section id="home">
           <Hero lang={lang} />
         </section>
-        
+
         <section id="produtos" className="py-16 md:py-24 bg-white scroll-mt-24">
-          <Products lang={lang} />
+          <Products lang={lang} onCategoryClick={handleCategorySelect} />
         </section>
 
         <section id="sobre" className="py-16 md:py-24 bg-gray-50 scroll-mt-24">
@@ -32,10 +41,14 @@ const App: React.FC = () => {
         </section>
 
         <section id="marcas" className="py-16 md:py-24 bg-white scroll-mt-24">
-          <Brands lang={lang} />
+          <Brands
+            lang={lang}
+            activeTab={activeBrandTab}
+            setActiveTab={setActiveBrandTab}
+          />
         </section>
 
-        <section id="galeria" className="py-16 md:py-24 bg-gray-50 overflow-hidden scroll-mt-24">
+        <section id="galeria" className="py-16 md:py-24 bg-gray-50 scroll-mt-24">
           <Gallery lang={lang} />
         </section>
 

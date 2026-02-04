@@ -49,8 +49,8 @@ const About: React.FC<{ lang: Language }> = ({ lang }) => {
           <div className="relative">
             <div className="rounded-[40px] overflow-hidden aspect-[4/3] bg-solfil-black shadow-2xl">
               <img
-                src="https://images.unsplash.com/photo-1504307651254-35680fb3ba66?auto=format&fit=crop&q=80&w=1000"
-                alt="Construction"
+                src="/img/about.webp"
+                alt="Solfil Algarve"
                 className="w-full h-full object-cover opacity-70 grayscale"
                 loading="lazy"
               />
