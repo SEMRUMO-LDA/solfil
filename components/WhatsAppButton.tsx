@@ -5,7 +5,7 @@ import { Language } from '@/types';
 
 const WhatsAppButton: React.FC<{ lang: Language }> = ({ lang }) => {
   const [isHidden, setIsHidden] = useState(false);
-  const phoneNumber = '351289591144';
+  const phoneNumber = '351919557343';
   
   const translations = {
     PT: {

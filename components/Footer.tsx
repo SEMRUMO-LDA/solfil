@@ -179,10 +179,19 @@ const Footer: React.FC<{ lang: Language }> = ({ lang }) => {
               <div className="pt-4 space-y-4">
                 <h4 className="text-solfil-orange font-black tracking-[0.4em] text-xs uppercase">{t.socialPoints}</h4>
                 <div className="flex space-x-4">
-                  {['FB', 'IG'].map(id => (
-                    <div key={id} className="w-11 h-11 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-solfil-orange hover:text-white transition-all cursor-pointer">
-                      <span className="text-[11px] font-bold text-white/50">{id}</span>
-                    </div>
+                  {[
+                    { id: 'FB', url: 'https://www.facebook.com/solfilpt/' },
+                    { id: 'IG', url: 'https://www.instagram.com/solfilpt/' }
+                  ].map(social => (
+                    <a 
+                      key={social.id} 
+                      href={social.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-11 h-11 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-solfil-orange hover:text-white transition-all cursor-pointer"
+                    >
+                      <span className="text-[11px] font-bold text-white/50">{social.id}</span>
+                    </a>
                   ))}
                 </div>
               </div>

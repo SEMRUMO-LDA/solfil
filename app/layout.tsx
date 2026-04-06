@@ -12,6 +12,9 @@ export const metadata: Metadata = {
   title: 'Solfil | Materiais de Construção - Algarve',
   description:
     'Líder no fornecimento de materiais de construção no Algarve. Qualidade, rigor e marcas de excelência desde 1986.',
+  icons: {
+    icon: '/favicon.png',
+  },
 };
 
 export default function RootLayout({
