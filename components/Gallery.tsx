@@ -1,83 +1,33 @@
+'use client';
 
 import React, { useState } from 'react';
-import { Language } from '../types';
+import { Language } from '@/types';
+import type { CMSGalleryImage } from '@/types/cms';
 
-interface GalleryImage {
-  id: number;
-  url: string;
-  alt: string;
-  category: string;
-  gridClass: string;
+interface GalleryProps {
+  lang: Language;
+  images: CMSGalleryImage[];
 }
 
-const galleryImages: GalleryImage[] = [
-  {
-    id: 1,
-    url: '/img/galeria-1.jpg',
-    alt: 'Showroom Solfil',
-    category: 'SHOWROOM',
-    gridClass: 'col-span-4 lg:col-span-4 lg:row-span-3'
-  },
-  {
-    id: 2,
-    url: '/img/galeria-2.jpg',
-    alt: 'Equipamentos de Banho',
-    category: 'BANHOS',
-    gridClass: 'col-span-2 lg:col-span-2 lg:row-span-1'
-  },
-  {
-    id: 3,
-    url: '/img/galeria-3.jpg',
-    alt: 'Materiais de Construção',
-    category: 'MATERIAIS',
-    gridClass: 'col-span-2 lg:col-span-2 lg:row-span-1'
-  },
-  {
-    id: 4,
-    url: '/img/galeria-4.jpg',
-    alt: 'Soluções de Pavimento',
-    category: 'PAVIMENTOS',
-    gridClass: 'col-span-2 lg:col-span-2 lg:row-span-2'
-  },
-  {
-    id: 5,
-    url: '/img/galeria-5.jpg',
-    alt: 'Exposição de Cerâmica',
-    category: 'CERÂMICA',
-    gridClass: 'col-span-2 lg:col-span-2 lg:row-span-2'
-  },
-  {
-    id: 6,
-    url: '/img/galeria-6.jpg',
-    alt: 'Revestimentos Modernos',
-    category: 'REVESTIMENTOS',
-    gridClass: 'col-span-4 lg:col-span-8 lg:row-span-2'
-  },
-];
-
-const Gallery: React.FC<{ lang: Language }> = ({ lang }) => {
-  const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
+const Gallery: React.FC<GalleryProps> = ({ lang, images }) => {
+  const [selectedImage, setSelectedImage] = useState<CMSGalleryImage | null>(null);
 
   const translations = {
     PT: {
       tag: 'GALERIA',
       title1: 'IMAGENS QUE',
       title2: 'INSPIRAM',
-      prev: 'Anterior',
-      next: 'Próximo'
     },
     EN: {
       tag: 'GALLERY',
       title1: 'IMAGES THAT',
       title2: 'INSPIRE',
-      prev: 'Previous',
-      next: 'Next'
     }
   };
 
   const t = translations[lang];
 
-  const openLightbox = (img: GalleryImage) => {
+  const openLightbox = (img: CMSGalleryImage) => {
     setSelectedImage(img);
     document.body.style.overflow = 'hidden';
   };
@@ -96,11 +46,10 @@ const Gallery: React.FC<{ lang: Language }> = ({ lang }) => {
             {t.title1} <span className="font-semibold italic">{t.title2}</span><span className="font-bold text-solfil-orange">.</span>
           </h2>
         </div>
-
       </div>
 
       <div className="grid grid-cols-4 lg:grid-cols-8 gap-4 lg:gap-6">
-        {galleryImages.map((img) => (
+        {images.map((img) => (
           <div
             key={img.id}
             onClick={() => openLightbox(img)}

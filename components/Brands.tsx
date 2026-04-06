@@ -1,14 +1,17 @@
+'use client';
+
 import React from 'react';
-import { Language } from '../types';
-import { brandCategories } from '../data/brandCategories';
+import { Language } from '@/types';
+import type { CMSBrandCategory } from '@/types/cms';
 
 interface BrandsProps {
   lang: Language;
+  brandCategories: CMSBrandCategory[];
   activeTab: string;
   setActiveTab: (id: string) => void;
 }
 
-const Brands: React.FC<BrandsProps> = ({ lang, activeTab, setActiveTab }) => {
+const Brands: React.FC<BrandsProps> = ({ lang, brandCategories, activeTab, setActiveTab }) => {
   const activeCategory = brandCategories.find(c => c.id === activeTab);
 
   const t = {

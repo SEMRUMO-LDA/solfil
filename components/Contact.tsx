@@ -1,6 +1,7 @@
+'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Language } from '../types';
+import { Language } from '@/types';
 
 const Contact: React.FC<{ lang: Language }> = ({ lang }) => {
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');

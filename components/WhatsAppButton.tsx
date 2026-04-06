@@ -1,6 +1,7 @@
+'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Language } from '../types';
+import { Language } from '@/types';
 
 const WhatsAppButton: React.FC<{ lang: Language }> = ({ lang }) => {
   const [isHidden, setIsHidden] = useState(false);

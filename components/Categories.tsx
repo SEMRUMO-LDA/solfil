@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { CategoryItem } from '../types';
+import { CategoryItem } from '@/types';
 
 const categories: CategoryItem[] = [
   { id: '1', title: 'Bohemian', image: 'https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&q=80&w=600' },

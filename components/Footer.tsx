@@ -1,7 +1,8 @@
+'use client';
 
 import React, { useState } from 'react';
-import { Language } from '../types';
-import PrivacyModal from './PrivacyModal';
+import { Language } from '@/types';
+import PrivacyModal from '@/components/PrivacyModal';
 
 interface LocationInfo {
   name: string;

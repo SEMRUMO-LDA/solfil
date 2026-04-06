@@ -1,12 +1,16 @@
+'use client';
+
 import React, { useRef } from 'react';
-import { Language } from '../types';
+import { Language } from '@/types';
+import type { CMSProduct } from '@/types/cms';
 
 interface ProductsProps {
   lang: Language;
+  products: CMSProduct[];
   onCategoryClick: (id: string) => void;
 }
 
-const Products: React.FC<ProductsProps> = ({ lang, onCategoryClick }) => {
+const Products: React.FC<ProductsProps> = ({ lang, products, onCategoryClick }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const translations = {
@@ -18,20 +22,6 @@ const Products: React.FC<ProductsProps> = ({ lang, onCategoryClick }) => {
       partnerTag: 'TRABALHAMOS COM OS MELHORES PARCEIROS',
       prev: 'Anterior',
       next: 'Próximo',
-      categories: [
-        { id: 'argamassas', title: 'Argamassas Técnicas', description: 'Soluções profissionais para colagem e betumação de cerâmica.' },
-        { id: 'banheiras', title: 'Banheiras e Bases de Duche', description: 'Conforto personalizado para banhos extraordinários e relaxantes.' },
-        { id: 'flutuante', title: 'Pavimentos Flutuantes e Vinílicos', description: 'Conforto e resistência com as nossas soluções de pavimentos flutuantes.' },
-        { id: 'isolamentos', title: 'Isolamentos Térmicos e Acústicos', description: 'Eficiência energética e conforto acústico com soluções de última geração.' },
-        { id: 'estruturais', title: 'Materiais Estruturais', description: 'Cimento, tijolo e aço: a base sólida e certificada para qualquer construção.' },
-        { id: 'mob-banho', title: 'Mobiliários de casa de banho', description: 'Estilo ímpar, mobiliário exclusivo, elevando o conforto e funcionalidade diária.' },
-        { id: 'rev-pav', title: 'Pavimentos e Azulejos', description: 'Transforme a sua casa num refúgio de elegância com os nossos azulejos e pavimentos exclusivos.' },
-        { id: 'resguardos', title: 'Resguardos de Duche', description: 'Soluções elegantes e duradouras para o seu espaço de banho.' },
-        { id: 'revestimentos-piscinas', title: 'Revestimentos de Piscinas', description: 'Estilo artisticamente refinado e durabilidade superior para a sua piscina.' },
-        { id: 'sanitarias', title: 'Sanitárias', description: 'Design sofisticado e funcionalidade de alta qualidade para ambientes requintados.' },
-        { id: 'toalheiros', title: 'Toalheiros', description: 'Elegância funcional, adicione um toque de luxo ao seu espaço.' },
-        { id: 'torneiras', title: 'Torneiras', description: 'Elevando a estética com torneiras exclusivas, a fusão perfeita de forma e função.' },
-      ]
     },
     EN: {
       tag: 'OUR CATALOGUE',
@@ -41,39 +31,10 @@ const Products: React.FC<ProductsProps> = ({ lang, onCategoryClick }) => {
       partnerTag: 'WE WORK WITH THE BEST PARTNERS',
       prev: 'Previous',
       next: 'Next',
-      categories: [
-        { id: 'argamassas', title: 'Technical Mortars', description: 'Professional solutions for bonding and grouting ceramics.' },
-        { id: 'banheiras', title: 'Bathtubs & Shower Trays', description: 'Personalized comfort for extraordinary and relaxing baths.' },
-        { id: 'flutuante', title: 'Floating & Vinyl Flooring', description: 'Comfort and resistance with our floating flooring solutions.' },
-        { id: 'isolamentos', title: 'Thermal & Acoustic Insulation', description: 'Energy efficiency and acoustic comfort with state-of-the-art solutions.' },
-        { id: 'estruturais', title: 'Structural Materials', description: 'Cement, brick, and steel: the solid and certified foundation for any construction.' },
-        { id: 'mob-banho', title: 'Bathroom Furniture', description: 'Unique style, exclusive furniture, daily comfort and functionality.' },
-        { id: 'rev-pav', title: 'Flooring & Tiles', description: 'Transform your home into a haven of elegance with our exclusive tiles and flooring.' },
-        { id: 'resguardos', title: 'Shower Enclosures', description: 'Elegant and durable solutions for your bathroom space.' },
-        { id: 'revestimentos-piscinas', title: 'Pool Coatings', description: 'Artistically refined style and superior durability for your pool.' },
-        { id: 'sanitarias', title: 'Sanitary Ware', description: 'Sophisticated design and high-quality functionality for refined environments.' },
-        { id: 'toalheiros', title: 'Towel Rails', description: 'Functional elegance, add a touch of luxury to your space.' },
-        { id: 'torneiras', title: 'Taps & Faucets', description: 'Elevating aesthetics with exclusive faucets, the perfect fusion of form and function.' },
-      ]
     }
   };
 
   const t = translations[lang];
-
-  const images = [
-    '/img/cat-argamassas-tecnicas.jpg', // Argamassas
-    '/img/cat-banheiras-e-bases-de-duche.jpg', // Banheiras
-    '/img/cat-pavimentos-flutuantes-e-vinilicos.jpg', // Flutuante
-    '/img/cat-isolamentos-termicos-e-acusticos.jpg', // Isolamentos
-    '/img/cat-materiais-estruturais.jpg', // Estruturais
-    '/img/cat-mobiliarios-de-casa-de-banho.jpg', // Mobiliário
-    '/img/cat-pavimentos-e-azulejos.jpg', // Pavimentos
-    '/img/cat-reguardos-de-duche.jpg', // Resguardos
-    '/img/cat-revestimentos-de-piscinas.jpg', // Piscinas
-    '/img/cat-sanitarias.jpg', // Sanitárias
-    '/img/cat-toalheiros.jpg', // Toalheiros
-    '/img/cat-torneiras.jpg'  // Torneiras
-  ];
 
   const scroll = (dir: 'l' | 'r') => {
     if (scrollRef.current) {
@@ -121,11 +82,13 @@ const Products: React.FC<ProductsProps> = ({ lang, onCategoryClick }) => {
       {/* Mobile/Tablet Carousel Layout */}
       <div ref={scrollRef} className="lg:hidden no-scrollbar slider-full-bleed">
         <div className="flex gap-8 py-20 overflow-visible">
-          {t.categories.map((prod, idx) => (
+          {products.map((prod) => (
             <div key={prod.id} className="min-w-[85vw] md:min-w-[45vw]">
               <ProductCard
-                prod={{ ...prod, image: images[idx] }}
-                onClick={() => onCategoryClick(prod.id)}
+                title={prod.title[lang]}
+                description={prod.description[lang]}
+                image={prod.image}
+                onClick={() => onCategoryClick(prod.slug)}
               />
             </div>
           ))}
@@ -134,11 +97,13 @@ const Products: React.FC<ProductsProps> = ({ lang, onCategoryClick }) => {
 
       {/* Desktop Grid Layout */}
       <div className="hidden lg:grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 w-full">
-        {t.categories.map((prod, idx) => (
+        {products.map((prod) => (
           <ProductCard
             key={prod.id}
-            prod={{ ...prod, image: images[idx] }}
-            onClick={() => onCategoryClick(prod.id)}
+            title={prod.title[lang]}
+            description={prod.description[lang]}
+            image={prod.image}
+            onClick={() => onCategoryClick(prod.slug)}
           />
         ))}
       </div>
@@ -160,26 +125,28 @@ const Products: React.FC<ProductsProps> = ({ lang, onCategoryClick }) => {
 };
 
 interface ProductCardProps {
-  prod: any;
+  title: string;
+  description: string;
+  image: string;
   onClick: () => void;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ prod, onClick }) => (
+const ProductCard: React.FC<ProductCardProps> = ({ title, description, image, onClick }) => (
   <div
     onClick={onClick}
     className="group relative bg-white/40 backdrop-blur-md rounded-[32px] overflow-hidden flex flex-col transition-all duration-700 border border-white/60 hover:border-solfil-orange/30 hover:bg-white/80 hover:-translate-y-3 select-none shadow-sm hover:shadow-[0_20px_50px_rgba(254,80,0,0.15)] cursor-pointer h-full"
   >
     <div className="relative aspect-[16/9] overflow-hidden bg-solfil-black">
-      <img src={prod.image} alt={prod.title} className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-110" loading="lazy" />
+      <img src={image} alt={title} className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-110" loading="lazy" />
       <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-40"></div>
     </div>
     <div className="p-8 relative z-10 flex-1 flex flex-col">
       <div className="w-8 h-1 bg-solfil-orange/20 mb-4 group-hover:w-16 group-hover:bg-solfil-orange transition-all duration-500"></div>
       <h3 className="text-2xl font-bold text-solfil-black mb-3 group-hover:text-solfil-orange transition-colors">
-        {prod.title}
+        {title}
       </h3>
       <p className="text-solfil-gray text-sm font-normal leading-relaxed">
-        {prod.description}
+        {description}
       </p>
     </div>
   </div>

@@ -1,6 +1,7 @@
+'use client';
 
 import React, { useEffect } from 'react';
-import { Language } from '../types';
+import { Language } from '@/types';
 
 interface PrivacyModalProps {
   isOpen: boolean;
