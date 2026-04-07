@@ -153,9 +153,36 @@ class KibanClient {
   async getMediaItem(id: string): Promise<KibanMedia> {
     return this.request<KibanMedia>(`/media/${id}`);
   }
+
+  async subscribe(data: {
+    email: string;
+    name?: string;
+    source?: string;
+  }): Promise<{ subscribed: boolean }> {
+    return this.request<{ subscribed: boolean }>('/newsletter/subscribe', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async submitForm(data: {
+    form_name: string;
+    name?: string;
+    email: string;
+    phone?: string;
+    subject?: string;
+    message: string;
+    source_url?: string;
+    extra?: Record<string, unknown>;
+  }): Promise<{ id: string; form: string; received_at: string }> {
+    return this.request<{ id: string; form: string; received_at: string }>('/forms/submit', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
 }
 
-// Singleton - only created if env vars are configured
+// Server-side singleton (uses secret API key for fetching content)
 let client: KibanClient | null = null;
 
 export function getKibanClient(): KibanClient | null {
@@ -168,6 +195,21 @@ export function getKibanClient(): KibanClient | null {
 
   client = new KibanClient({ url, apiKey });
   return client;
+}
+
+// Client-side singleton (uses public API key for form submissions)
+let browserClient: KibanClient | null = null;
+
+export function getKibanBrowserClient(): KibanClient | null {
+  if (browserClient) return browserClient;
+
+  const url = process.env.NEXT_PUBLIC_KIBAN_API_URL;
+  const apiKey = process.env.NEXT_PUBLIC_KIBAN_FORMS_KEY;
+
+  if (!url || !apiKey) return null;
+
+  browserClient = new KibanClient({ url, apiKey, timeout: 15000 });
+  return browserClient;
 }
 
 export { KibanClient };

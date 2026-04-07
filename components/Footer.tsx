@@ -102,14 +102,21 @@ const Footer: React.FC<{ lang: Language }> = ({ lang }) => {
 
     setNewsStatus('loading');
     try {
-      const response = await fetch(`https://formsubmit.co/ajax/${COMPANY_EMAIL}`, {
+      const apiUrl = process.env.NEXT_PUBLIC_KIBAN_API_URL;
+      const apiKey = process.env.NEXT_PUBLIC_KIBAN_FORMS_KEY;
+
+      if (!apiUrl || !apiKey) throw new Error('CMS not configured');
+
+      const response = await fetch(`${apiUrl}/api/v1/newsletter/subscribe`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`,
+        },
         body: JSON.stringify({
           email: newsEmail,
-          _subject: 'Nova Subscrição Newsletter - Solfil Website',
-          _captcha: "false"
-        })
+          source: 'footer',
+        }),
       });
 
       if (response.ok) {
