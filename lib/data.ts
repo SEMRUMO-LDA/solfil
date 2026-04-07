@@ -160,7 +160,33 @@ export async function getSiteSettings(): Promise<CMSSiteSettings> {
 
   try {
     const entry = await kiban.getEntry('configuracoes', 'geral');
-    return entry.content as unknown as CMSSiteSettings;
+    const c = entry.content as Record<string, any>;
+
+    // Parse locations from JSON string (textarea field) or use as-is if already object
+    let locations = staticSiteSettings.locations;
+    if (c.locations) {
+      try {
+        locations = typeof c.locations === 'string' ? JSON.parse(c.locations) : c.locations;
+      } catch {
+        locations = staticSiteSettings.locations;
+      }
+    }
+
+    return {
+      companyName: c.companyName || staticSiteSettings.companyName,
+      description: {
+        PT: c.description_pt || c.description?.PT || staticSiteSettings.description.PT,
+        EN: c.description_en || c.description?.EN || staticSiteSettings.description.EN,
+      },
+      logoUrl: c.logoUrl || staticSiteSettings.logoUrl,
+      companyEmail: c.companyEmail || staticSiteSettings.companyEmail,
+      whatsappNumber: c.whatsappNumber || staticSiteSettings.whatsappNumber,
+      socialLinks: {
+        facebook: c.facebook || c.socialLinks?.facebook || staticSiteSettings.socialLinks.facebook,
+        instagram: c.instagram || c.socialLinks?.instagram || staticSiteSettings.socialLinks.instagram,
+      },
+      locations,
+    };
   } catch (error) {
     console.warn('[Solfil] Failed to fetch settings from CMS, using static data:', error);
     return staticSiteSettings;
