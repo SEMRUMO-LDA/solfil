@@ -146,13 +146,22 @@ export const staticGalleryImages: CMSGalleryImage[] = [
 // ---------------------------------------------------------------------------
 
 export const staticSiteSettings: CMSSiteSettings = {
+  companyName: 'SOLFIL, SA',
+  description: {
+    PT: 'Qualidade e rigor no fornecimento de materiais de construção desde 1986.',
+    EN: 'Quality and precision in construction material supply since 1986.',
+  },
+  logoUrl: 'https://raw.githubusercontent.com/solfil/solfil/solfil-assets/assets/logo.png',
   companyEmail: 'geral@solfil.pt',
-  whatsappNumber: '351289591144',
-  socialLinks: {},
+  whatsappNumber: '351919521697',
+  socialLinks: {
+    facebook: 'https://www.facebook.com/solfilpt/',
+    instagram: 'https://www.instagram.com/solfilpt/',
+  },
   locations: [
     {
       name: 'Vale de Parra',
-      address: 'Estrada Nacional 125, Vale de Parra\n8200-427 Albufeira, Portugal',
+      address: 'Estrada de Vale Rabelho, Vale de Parra, 8200-427 Guia Albufeira',
       mapUrl: 'https://www.google.com/maps/search/?api=1&query=Solfil+Vale+de+Parra+Albufeira',
       phones: [
         { number: '+351 919 557 343', raw: '351919557343' },
@@ -160,14 +169,14 @@ export const staticSiteSettings: CMSSiteSettings = {
       ],
       emails: ['telmo@solfil.pt'],
       note: {
-        PT: 'O levantamento de material de exterior é sempre no nosso escritório de Vale de Parra',
-        EN: 'Pick-up of outdoor materials is always at our Vale de Parra office',
+        PT: 'O levantamento de material de acabamento é sempre realizado no nosso armazém de Ferreiras.',
+        EN: 'Pick-up of finishing materials is always carried out at our Ferreiras warehouse.',
       },
       hours: { week: '07h30 - 12h30 | 14h00 - 18h00', saturday: 'Fechado', sunday: { PT: 'Fechado', EN: 'Closed' } },
     },
     {
       name: 'Ferreiras',
-      address: 'Sítio das Ferreiras\n8200-555 Albufeira, Portugal',
+      address: 'Avenida 25 de abril, Ferreiras, 8200-559 Albufeira',
       mapUrl: 'https://www.google.com/maps/search/?api=1&query=Solfil+Ferreiras+Albufeira',
       phones: [
         { number: '+351 919 521 697', raw: '351919521697' },

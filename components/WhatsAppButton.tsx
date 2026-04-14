@@ -3,9 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import { Language } from '@/types';
 
-const WhatsAppButton: React.FC<{ lang: Language }> = ({ lang }) => {
+const WhatsAppButton: React.FC<{ lang: Language; phoneNumber: string }> = ({ lang, phoneNumber }) => {
   const [isHidden, setIsHidden] = useState(false);
-  const phoneNumber = '351919557343';
   
   const translations = {
     PT: {

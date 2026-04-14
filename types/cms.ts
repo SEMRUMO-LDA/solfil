@@ -67,6 +67,9 @@ export interface CMSLocation {
 }
 
 export interface CMSSiteSettings {
+  companyName: string;
+  description: { PT: string; EN: string };
+  logoUrl: string;
   locations: CMSLocation[];
   companyEmail: string;
   whatsappNumber: string;

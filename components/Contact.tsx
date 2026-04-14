@@ -2,12 +2,10 @@
 
 import React, { useState, useEffect } from 'react';
 import { Language } from '@/types';
+import { getKibanBrowserClient } from '@/lib/kiban';
 
 const Contact: React.FC<{ lang: Language }> = ({ lang }) => {
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
-  
-  // EMAIL OFICIAL DA EMPRESA - Certifique-se de confirmar o email de ativação enviado pelo FormSubmit
-  const COMPANY_EMAIL = 'geral@solfil.pt';
 
   const translations = {
     PT: {
@@ -68,42 +66,35 @@ const Contact: React.FC<{ lang: Language }> = ({ lang }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus('submitting');
-    
+
     try {
-      // Endpoint FormSubmit via AJAX
-      const response = await fetch(`https://formsubmit.co/ajax/${COMPANY_EMAIL}`, {
-        method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json', 
-          'Accept': 'application/json' 
-        },
-        body: JSON.stringify({ 
-          ...formData, 
-          _subject: `Novo Pedido Website Solfil - ${formData.name}`,
-          _captcha: "false", // Importante ser string "false"
-          _template: "table" // Envia os dados num formato de tabela limpa no email
-        })
-      });
-      
-      const result = await response.json();
-      console.log('FormSubmit Response:', result); // Para depuração no console do browser
-      
-      if (response.ok) {
-        setStatus('success');
-        setFormData({ 
-          name: '', 
-          email: '', 
-          phone: '', 
-          clientType: t.types[0], 
-          message: '' 
-        });
-      } else {
-        throw new Error(result.message || 'Erro na resposta do servidor');
+      const kiban = getKibanBrowserClient();
+
+      if (!kiban) {
+        throw new Error('CMS not configured');
       }
+
+      await kiban.submitForm({
+        form_name: 'contact',
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        message: formData.message,
+        source_url: window.location.href,
+        extra: { client_type: formData.clientType },
+      });
+
+      setStatus('success');
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        clientType: t.types[0],
+        message: ''
+      });
     } catch (error) {
       console.error('Submission Error:', error);
       setStatus('error');
-      // Mantém a mensagem de erro visível por 8 segundos
       setTimeout(() => setStatus('idle'), 8000);
     }
   };
@@ -143,9 +134,6 @@ const Contact: React.FC<{ lang: Language }> = ({ lang }) => {
                 <>
                   <p className="text-solfil-gray mb-10 font-normal text-base md:text-lg leading-relaxed">{t.p}</p>
                   <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
-                    {/* Campo Honeypot para evitar spam sem captcha */}
-                    <input type="text" name="_honey" style={{ display: 'none' }} />
-                    
                     <div className="grid md:grid-cols-2 gap-4 md:gap-6">
                       <div className="space-y-1.5">
                         <label className="text-[10px] font-black text-solfil-black uppercase tracking-widest ml-1">{t.labelName}</label>

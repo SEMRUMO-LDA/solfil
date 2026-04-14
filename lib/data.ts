@@ -8,7 +8,7 @@
  * and seamlessly switches to CMS-driven content once configured.
  */
 
-import { getKibanClient } from './kiban';
+import { getKibanClient, getKibanBrowserClient } from './kiban';
 import type {
   CMSBrandCategory,
   CMSTestimonial,
@@ -26,12 +26,17 @@ import {
   staticSiteSettings,
 } from '@/data/static';
 
+// Server key first (SSR/Node), browser key fallback (static export)
+function getClient() {
+  return getKibanClient() ?? getKibanBrowserClient();
+}
+
 // ---------------------------------------------------------------------------
 // Brand Categories
 // ---------------------------------------------------------------------------
 
 export async function getBrandCategories(): Promise<CMSBrandCategory[]> {
-  const kiban = getKibanClient();
+  const kiban = getClient();
   if (!kiban) return mapStaticBrands();
 
   try {
@@ -70,7 +75,7 @@ function mapStaticBrands(): CMSBrandCategory[] {
 // ---------------------------------------------------------------------------
 
 export async function getProducts(): Promise<CMSProduct[]> {
-  const kiban = getKibanClient();
+  const kiban = getClient();
   if (!kiban) return staticProducts;
 
   try {
@@ -100,22 +105,29 @@ export async function getProducts(): Promise<CMSProduct[]> {
 // ---------------------------------------------------------------------------
 
 export async function getTestimonials(): Promise<CMSTestimonial[]> {
-  const kiban = getKibanClient();
+  const kiban = getClient();
   if (!kiban) return staticTestimonials;
 
   try {
-    const entries = await kiban.getEntries('testemunhos', {
+    const entries = await kiban.getEntries('testimonials', {
       status: 'published',
       limit: 20,
     });
 
-    return entries.map((entry) => ({
-      id: entry.id,
-      name: entry.title,
-      location: entry.content.location as string,
-      quote: entry.content.quote as { PT: string; EN: string },
-      image: (entry.content.image as string) ?? entry.featured_image ?? '',
-    }));
+    return entries.map((entry) => {
+      const c = entry.content;
+      const name = (c.author_name ?? entry.title) as string;
+      const location = (c.author_role ?? '') as string;
+      const image = (c.author_photo ?? entry.featured_image ?? '') as string;
+      const testimonial = (c.testimonial ?? '') as string;
+
+      // If quote is already bilingual use it, otherwise use the single field for both
+      const quote = c.quote
+        ? (c.quote as { PT: string; EN: string })
+        : { PT: testimonial, EN: testimonial };
+
+      return { id: entry.id, name, location, quote, image };
+    });
   } catch (error) {
     console.warn('[Solfil] Failed to fetch testimonials from CMS, using static data:', error);
     return staticTestimonials;
@@ -127,7 +139,7 @@ export async function getTestimonials(): Promise<CMSTestimonial[]> {
 // ---------------------------------------------------------------------------
 
 export async function getGalleryImages(): Promise<CMSGalleryImage[]> {
-  const kiban = getKibanClient();
+  const kiban = getClient();
   if (!kiban) return staticGalleryImages;
 
   try {
@@ -155,7 +167,7 @@ export async function getGalleryImages(): Promise<CMSGalleryImage[]> {
 // ---------------------------------------------------------------------------
 
 export async function getSiteSettings(): Promise<CMSSiteSettings> {
-  const kiban = getKibanClient();
+  const kiban = getClient();
   if (!kiban) return staticSiteSettings;
 
   try {

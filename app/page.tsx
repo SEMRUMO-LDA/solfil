@@ -12,10 +12,10 @@ import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
 import WhatsAppButton from '@/components/WhatsAppButton';
 import { Language } from '@/types';
-import type { CMSProduct, CMSBrandCategory, CMSTestimonial, CMSGalleryImage } from '@/types/cms';
+import type { CMSProduct, CMSBrandCategory, CMSTestimonial, CMSGalleryImage, CMSSiteSettings } from '@/types/cms';
 
 // Static fallbacks loaded synchronously for instant render
-import { staticProducts, staticTestimonials, staticGalleryImages } from '@/data/static';
+import { staticProducts, staticTestimonials, staticGalleryImages, staticSiteSettings } from '@/data/static';
 import { brandCategories as staticBrandCategoriesRaw } from '@/data/brandCategories';
 
 const staticBrandCategories: CMSBrandCategory[] = staticBrandCategoriesRaw.map((cat, idx) => ({
@@ -32,19 +32,20 @@ export default function Home() {
   const [brandCategories, setBrandCategories] = useState<CMSBrandCategory[]>(staticBrandCategories);
   const [testimonials, setTestimonials] = useState<CMSTestimonial[]>(staticTestimonials);
   const [galleryImages, setGalleryImages] = useState<CMSGalleryImage[]>(staticGalleryImages);
+  const [siteSettings, setSiteSettings] = useState<CMSSiteSettings>(staticSiteSettings);
   const [activeBrandTab, setActiveBrandTab] = useState<string>(staticBrandCategories[0].id);
 
-  // Try to load CMS data on mount (replaces static if CMS is available)
   useEffect(() => {
     async function loadCMSData() {
       try {
-        const { getProducts, getBrandCategories, getTestimonials, getGalleryImages } = await import('@/lib/data');
+        const { getProducts, getBrandCategories, getTestimonials, getGalleryImages, getSiteSettings } = await import('@/lib/data');
 
-        const [cmsProducts, cmsBrands, cmsTestimonials, cmsGallery] = await Promise.allSettled([
+        const [cmsProducts, cmsBrands, cmsTestimonials, cmsGallery, cmsSettings] = await Promise.allSettled([
           getProducts(),
           getBrandCategories(),
           getTestimonials(),
           getGalleryImages(),
+          getSiteSettings(),
         ]);
 
         if (cmsProducts.status === 'fulfilled' && cmsProducts.value.length > 0) {
@@ -59,6 +60,9 @@ export default function Home() {
         }
         if (cmsGallery.status === 'fulfilled' && cmsGallery.value.length > 0) {
           setGalleryImages(cmsGallery.value);
+        }
+        if (cmsSettings.status === 'fulfilled' && cmsSettings.value.locations.length > 0) {
+          setSiteSettings(cmsSettings.value);
         }
       } catch {
         // CMS not available — static data already loaded
@@ -113,8 +117,8 @@ export default function Home() {
           <Contact lang={lang} />
         </section>
       </main>
-      <Footer lang={lang} />
-      <WhatsAppButton lang={lang} />
+      <Footer lang={lang} settings={siteSettings} />
+      <WhatsAppButton lang={lang} phoneNumber={siteSettings.whatsappNumber} />
     </div>
   );
 }

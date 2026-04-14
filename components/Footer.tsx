@@ -2,60 +2,17 @@
 
 import React, { useState } from 'react';
 import { Language } from '@/types';
+import type { CMSSiteSettings } from '@/types/cms';
 import PrivacyModal from '@/components/PrivacyModal';
 
-interface LocationInfo {
-  name: string;
-  address: string;
-  mapUrl: string;
-  phones: { number: string; raw: string }[];
-  emails: string[];
-  note?: { PT: string, EN: string };
-  hours: {
-    week: string;
-    saturday: string;
-    sunday: { PT: string, EN: string };
-  };
-}
-
-const locations: LocationInfo[] = [
-  {
-    name: 'Vale de Parra',
-    address: 'Estrada Nacional 125, Vale de Parra\n8200-427 Albufeira, Portugal',
-    mapUrl: 'https://www.google.com/maps/search/?api=1&query=Solfil+Vale+de+Parra+Albufeira',
-    phones: [
-      { number: '+351 919 557 343', raw: '351919557343' },
-      { number: '+351 289 580 320', raw: '351289580320' }
-    ],
-    emails: ['telmo@solfil.pt'],
-    note: {
-      PT: 'O levantamento de material de exterior é sempre no nosso escritório de Vale de Parra',
-      EN: 'Pick-up of outdoor materials is always at our Vale de Parra office'
-    },
-    hours: { week: '07h30 - 12h30 | 14h00 - 18h00', saturday: 'Fechado', sunday: { PT: 'Fechado', EN: 'Closed' } }
-  },
-  {
-    name: 'Ferreiras',
-    address: 'Sítio das Ferreiras\n8200-555 Albufeira, Portugal',
-    mapUrl: 'https://www.google.com/maps/search/?api=1&query=Solfil+Ferreiras+Albufeira',
-    phones: [
-      { number: '+351 919 521 697', raw: '351919521697' },
-      { number: '+351 289 540 890', raw: '351289540890' }
-    ],
-    emails: ['dora@solfil.pt', 'cidalia@solfil.pt'],
-    hours: { week: '08h30 - 13h00 | 14h30 - 18h00', saturday: '09h00 - 13h00', sunday: { PT: 'Fechado', EN: 'Closed' } }
-  }
-];
-
-const Footer: React.FC<{ lang: Language }> = ({ lang }) => {
+const Footer: React.FC<{ lang: Language; settings: CMSSiteSettings }> = ({ lang, settings }) => {
+  const locations = settings.locations;
   const [activeLoc, setActiveLoc] = useState(0);
   const [newsEmail, setNewsEmail] = useState('');
   const [newsStatus, setNewsStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
 
-  const logoUrl = "https://raw.githubusercontent.com/solfil/solfil/solfil-assets/assets/logo.png";
-
-  const COMPANY_EMAIL = 'geral@solfil.pt';
+  const logoUrl = settings.logoUrl;
 
   const t = {
     PT: {
@@ -181,14 +138,14 @@ const Footer: React.FC<{ lang: Language }> = ({ lang }) => {
             <div className="lg:col-span-3 space-y-8">
               <img src={logoUrl} alt="Solfil" className="h-10 brightness-0 invert" />
               <p className="text-white/60 leading-relaxed font-normal text-base max-w-sm">
-                {lang === 'PT' ? 'Qualidade e rigor no fornecimento de materiais de construção desde 1986.' : 'Quality and precision in construction material supply since 1986.'}
+                {settings.description[lang]}
               </p>
               <div className="pt-4 space-y-4">
                 <h4 className="text-solfil-orange font-black tracking-[0.4em] text-xs uppercase">{t.socialPoints}</h4>
                 <div className="flex space-x-4">
                   {[
-                    { id: 'FB', url: 'https://www.facebook.com/solfilpt/' },
-                    { id: 'IG', url: 'https://www.instagram.com/solfilpt/' }
+                    ...(settings.socialLinks.facebook ? [{ id: 'FB', url: settings.socialLinks.facebook }] : []),
+                    ...(settings.socialLinks.instagram ? [{ id: 'IG', url: settings.socialLinks.instagram }] : []),
                   ].map(social => (
                     <a 
                       key={social.id} 
@@ -295,7 +252,7 @@ const Footer: React.FC<{ lang: Language }> = ({ lang }) => {
         {/* Footer Bottom Bar - pt-12 para simetria com a linha de cima */}
         <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-white/20 text-[9px] font-black tracking-[0.4em] uppercase w-full">
           <div className="text-left">
-            SOLFIL, SA @ 2026 DESENVOLVIDO PELA <a href="https://www.aorubro.pt" target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-solfil-orange">AORUBRO</a>
+            {settings.companyName} @ {new Date().getFullYear()} DESENVOLVIDO PELA <a href="https://www.aorubro.pt" target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-solfil-orange">AORUBRO</a>
           </div>
           <div className="flex gap-8 items-center">
             <button onClick={() => setIsPrivacyOpen(true)} className="hover:text-solfil-orange uppercase">{t.priv}</button>
