@@ -204,7 +204,7 @@ export function getKibanBrowserClient(): KibanClient | null {
   if (browserClient) return browserClient;
 
   const url = process.env.NEXT_PUBLIC_KIBAN_API_URL;
-  const apiKey = process.env.NEXT_PUBLIC_KIBAN_FORMS_KEY;
+  const apiKey = process.env.NEXT_PUBLIC_KIBAN_API_KEY;
 
   if (!url || !apiKey) return null;
 

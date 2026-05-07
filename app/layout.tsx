@@ -24,7 +24,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt" className={`scroll-smooth ${inter.className}`}>
-      <body className="bg-gray-50 text-solfil-black">{children}</body>
+      <body className="bg-gray-50 text-solfil-black">
+        {children}
+        <script
+          src={`${process.env.NEXT_PUBLIC_KIBAN_API_URL}/api/v1/widgets/loader.js`}
+          data-api-key={process.env.NEXT_PUBLIC_KIBAN_API_KEY}
+          data-tenant={process.env.NEXT_PUBLIC_KIBAN_TENANT}
+          async
+        />
+      </body>
     </html>
   );
 }

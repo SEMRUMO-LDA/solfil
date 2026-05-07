@@ -60,7 +60,7 @@ const Footer: React.FC<{ lang: Language; settings: CMSSiteSettings }> = ({ lang,
     setNewsStatus('loading');
     try {
       const apiUrl = process.env.NEXT_PUBLIC_KIBAN_API_URL;
-      const apiKey = process.env.NEXT_PUBLIC_KIBAN_FORMS_KEY;
+      const apiKey = process.env.NEXT_PUBLIC_KIBAN_API_KEY;
 
       if (!apiUrl || !apiKey) throw new Error('CMS not configured');
 
